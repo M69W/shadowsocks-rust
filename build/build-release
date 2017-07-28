@@ -1,0 +1,11 @@
+#!/bin/sh
+
+IMAGE='shadowsocks-rust:latest'
+CUR_DIR=$(cd $(dirname $0) && pwd)
+
+docker build -t "${IMAGE}" "$CUR_DIR"
+
+alias rust-musl-builder="docker run --privileged=true --rm -it -v \"${CUR_DIR}/..\":/home/rust/src ${IMAGE}"
+
+export CARGO_TARGET_DIR="$CUR_DIR/target"
+cargo build --release
